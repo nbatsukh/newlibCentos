@@ -24,6 +24,7 @@ RUN yum install -y openssh-clients
 #seems -A option is illegal for CentOS. The key generation is handled by the server itself.
 #generation of new keys is achieved by removing the old keys from /etc/ssh
 # RUN service sshd start # Doesn't work in Centos 7 since they have moved to systemctl
-RUN systemctl start sshd.service
+RUN systemctl enable sshd.service
 #RUN /usr/sbin/sshd -k start
 
+CMD ["/usr/sbin/init"]
