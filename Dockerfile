@@ -4,9 +4,10 @@ ENV APP_HOME /code
 
 # RUBY
 RUN mkdir -p /opt/ruby-2.2.3/ && \
-    curl -s https://s3.amazonaws.com/pkgr-buildpack-ruby/current/centos-6/ruby-2.2.3.tgz | tar xzC /opt/ruby-2.2.3/
+    curl -sSL https://s3.amazonaws.com/pkgr-buildpack-ruby/current/centos-6/ruby-2.2.3.tgz | tar xzC /opt/ruby-2.2.3/
+RUN ln -s /opt/ruby-2.2.3 /opt/ruby 
 
-ENV PATH /opt/ruby-2.2.3/bin:${PATH}
+ENV PATH /opt/ruby/bin:${PATH}
 
 RUN gem install os test-unit --no-ri --no-rdoc
 RUN gem update --system --no-ri --no-rdoc
