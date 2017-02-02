@@ -26,5 +26,5 @@ RUN yum install -y openssh-clients
 # RUN service sshd start # Doesn't work in Centos 7 since they have moved to systemctl
 RUN systemctl enable sshd.service
 #RUN /usr/sbin/sshd -k start
-
+VOLUME [ “/sys/fs/cgroup” ]
 CMD ["/usr/sbin/init"]
