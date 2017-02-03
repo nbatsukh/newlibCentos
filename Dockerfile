@@ -10,20 +10,13 @@ ENV PATH /opt/ruby/bin:${PATH}
 RUN gem install os test-unit --no-ri --no-rdoc && \
     gem update --system --no-ri --no-rdoc
 
-# GO
-RUN rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm && \
-    yum install -y git golang
-
-ENV GOROOT   /usr/lib/golang
-ENV GOPATH   /go
-ENV PATH ${PATH}:${GOPATH}
-
-# SSH
-RUN yum install -y openssh-server openssh-clients
+# SSH & golang & git
+RUN rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+RUN mkdir -p /go && yum install -y openssh-server openssh-clients git golang
+ENV GOROOT=/usr/lib/golang GOPATH=/go PATH=${PATH}:${GOPATH}
 
 #seems -A option is illegal for CentOS. The key generation is handled by the server itself.
 #generation of new keys is achieved by removing the old keys from /etc/ssh
 # RUN service sshd start # Doesn't work in Centos 7 since they have moved to systemctl
 RUN systemctl enable sshd.service
-VOLUME [ “/sys/fs/cgroup” ]
 CMD ["/usr/sbin/init"]
